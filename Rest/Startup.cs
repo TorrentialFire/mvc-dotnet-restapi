@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Rest.Data;
 
 namespace Rest
 {
@@ -25,6 +26,8 @@ namespace Rest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IRepository, MockRestRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

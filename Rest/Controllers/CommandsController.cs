@@ -10,8 +10,12 @@ namespace Rest.Controllers
     [ApiController]
     public class CommandsController : ControllerBase
     {
-        private readonly MockRestRepo repository = new MockRestRepo();
-
+        private readonly IRepository repository;
+        public CommandsController(IRepository repository)
+        {
+            this.repository = repository;
+        }
+        
         // GET api/commands
         [HttpGet]
         public ActionResult<IEnumerable<Command>> GetAllCommands()
