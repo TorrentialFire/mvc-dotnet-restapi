@@ -52,8 +52,26 @@ namespace Rest.Controllers
             repository.SaveChanges();
 
             var commandReadDTO = mapper.Map<CommandReadDTO>(commandModel);
-            
+
             return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDTO.Id}, commandReadDTO);
+        }
+
+        // PUT api/commands/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateCommand(int id, CommandUpdateDTO commandUpdateDTO)
+        {
+            var commandModel = repository.GetCommandById(id);
+            if (commandModel == null)
+            {
+                return NotFound();
+            }
+
+            mapper.Map(commandUpdateDTO, commandModel);
+            
+            repository.UpdateCommand(commandModel);
+            repository.SaveChanges();
+
+            return NoContent();
         }
     }
 }

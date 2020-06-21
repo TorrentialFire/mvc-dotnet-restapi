@@ -38,5 +38,10 @@ namespace Rest.Data
         {
             return (context.SaveChanges() >= 0);
         }
+
+        public void UpdateCommand(Command command)
+        {
+            // throw new NotImplementedException();
+        }
     }
 }
