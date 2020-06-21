@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Rest.Models;
@@ -13,6 +14,16 @@ namespace Rest.Data
             this.context = context;
         }
 
+        public void CreateCommand(Command command)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            context.Commands.Add(command);
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             return context.Commands.ToList();
@@ -21,6 +32,11 @@ namespace Rest.Data
         public Command GetCommandById(int id)
         {
             return context.Commands.FirstOrDefault(p => p.Id == id);
+        }
+
+        public bool SaveChanges()
+        {
+            return (context.SaveChanges() >= 0);
         }
     }
 }

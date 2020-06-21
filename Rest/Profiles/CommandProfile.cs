@@ -10,6 +10,7 @@ namespace Rest.Profiles
         public CommandProfile()
         {
             CreateMap<Command, CommandReadDTO>();
+            CreateMap<CommandCreateDTO, Command>();
         }
     }
 }
