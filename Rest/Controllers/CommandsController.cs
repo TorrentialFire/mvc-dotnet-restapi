@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Rest.Data;
 using Rest.DTOs;
@@ -69,6 +70,48 @@ namespace Rest.Controllers
             mapper.Map(commandUpdateDTO, commandModel);
             
             repository.UpdateCommand(commandModel);
+            repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        // PATCH api/commands/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PatchCommand(int id, JsonPatchDocument<CommandUpdateDTO> patchDocument)
+        {
+            var commandModel = repository.GetCommandById(id);
+            if (commandModel == null)
+            {
+                return NotFound();
+            }
+
+            var commandToPatch = mapper.Map<CommandUpdateDTO>(commandModel);
+            patchDocument.ApplyTo(commandToPatch, ModelState);
+
+            if (!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            mapper.Map(commandToPatch, commandModel);
+
+            repository.UpdateCommand(commandModel);
+            repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        // DELETE api/commands/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandToDelete = repository.GetCommandById(id);
+            if (commandToDelete == null)
+            {
+                return NotFound();
+            }
+
+            repository.DeleteCommand(commandToDelete);
             repository.SaveChanges();
 
             return NoContent();
