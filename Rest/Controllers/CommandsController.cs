@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Rest.Data;
@@ -24,6 +25,7 @@ namespace Rest.Controllers
         
         // GET api/commands
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<CommandReadDTO>> GetAllCommands()
         {
             var commands = repository.GetAllCommands();
@@ -33,6 +35,7 @@ namespace Rest.Controllers
 
         // GET api/commands/{id}
         [HttpGet("{id}", Name="GetCommandById")]
+        [Authorize]
         public ActionResult<CommandReadDTO> GetCommandById(int id)
         {
             var command = repository.GetCommandById(id);
@@ -45,6 +48,7 @@ namespace Rest.Controllers
 
         // POST api/commands
         [HttpPost]
+        [Authorize]
         public ActionResult<CommandReadDTO> CreateCommand(CommandCreateDTO commandCreateDTO)
         {
             var commandModel = mapper.Map<Command>(commandCreateDTO);
@@ -59,6 +63,7 @@ namespace Rest.Controllers
 
         // PUT api/commands/{id}
         [HttpPut("{id}")]
+        [Authorize]
         public ActionResult UpdateCommand(int id, CommandUpdateDTO commandUpdateDTO)
         {
             var commandModel = repository.GetCommandById(id);
@@ -77,6 +82,7 @@ namespace Rest.Controllers
 
         // PATCH api/commands/{id}
         [HttpPatch("{id}")]
+        [Authorize]
         public ActionResult PatchCommand(int id, JsonPatchDocument<CommandUpdateDTO> patchDocument)
         {
             var commandModel = repository.GetCommandById(id);
@@ -103,6 +109,7 @@ namespace Rest.Controllers
 
         // DELETE api/commands/{id}
         [HttpDelete("{id}")]
+        [Authorize]
         public ActionResult DeleteCommand(int id)
         {
             var commandToDelete = repository.GetCommandById(id);

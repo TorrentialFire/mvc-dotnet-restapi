@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Newtonsoft.Json.Serialization;
 using Rest.Data;
 
@@ -28,6 +29,11 @@ namespace Rest
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => {
+                opt.Audience = Configuration["AAD:ResourceId"];
+                opt.Authority = $"{Configuration["AAD:Instance"]}{Configuration["AAD:TenantId"]}";
+            });
+
             services.AddDbContext<RestContext>(opt => 
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
             );
@@ -51,6 +57,8 @@ namespace Rest
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
