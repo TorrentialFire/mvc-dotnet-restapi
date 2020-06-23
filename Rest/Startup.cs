@@ -29,11 +29,12 @@ namespace Rest
 
         public void ConfigureServices(IServiceCollection services)
         {
+            /*
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt => {
                 opt.Audience = Configuration["AAD:ResourceId"];
                 opt.Authority = $"{Configuration["AAD:Instance"]}{Configuration["AAD:TenantId"]}";
             });
-
+            */
             services.AddDbContext<RestContext>(opt => 
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"))
             );
@@ -58,7 +59,7 @@ namespace Rest
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseAuthorization();
 
