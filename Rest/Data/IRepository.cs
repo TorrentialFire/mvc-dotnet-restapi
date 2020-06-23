@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Rest.DTOs;
 using Rest.Models;
 
 namespace Rest.Data
@@ -7,11 +8,10 @@ namespace Rest.Data
     public interface IRepository
     {
         bool SaveChanges();
-        
-        IEnumerable<Command> GetAllCommands();
-        Command GetCommandById(int id);
-        void CreateCommand(Command command);
-        void UpdateCommand(Command command);
-        void DeleteCommand(Command command);
+        User GetUserById(int id);
+        User GetUserByName(string name);
+        void CreateUser(User user);
+        void UpdateUser(User user);
+        void DeleteUser(User user);
     }
 }
