@@ -8,6 +8,7 @@ namespace Rest.Data
     public interface IRepository
     {
         bool SaveChanges();
+        IEnumerable<User> GetUsers();
         User GetUserById(int id);
         User GetUserByName(string name);
         void CreateUser(User user);

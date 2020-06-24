@@ -79,6 +79,12 @@ namespace Rest.Data
             }
         }
 
-
+        public IEnumerable<User> GetUsers()
+        {
+            return context.Users
+                .Include(user => user.Podcasts)
+                .AsNoTracking()
+                .ToList();
+        }
     }
 }

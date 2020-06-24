@@ -1,4 +1,6 @@
 
+using System.Linq;
+using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +23,16 @@ namespace Rest.Controllers
             this.mapper = mapper;
         }
 
+        // GET api/users
         // GET api/users?name=<encoded-name>
         [HttpGet(Name="GetUserByName")]
         public ActionResult<UserReadDTO> GetUserByName(string name)
         {
+            if(string.IsNullOrEmpty(name))
+            {
+                return Ok(repository.GetUsers().Select(user => mapper.Map<UserReadDTO>(user)));
+            }
+
             var user = repository.GetUserByName(name);
             if (user == null)
             {

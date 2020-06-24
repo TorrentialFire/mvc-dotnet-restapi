@@ -27,6 +27,11 @@ namespace Rest.Data
             throw new System.NotImplementedException();
         }
 
+        public IEnumerable<User> GetUsers()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool SaveChanges()
         {
             throw new System.NotImplementedException();
